@@ -1,6 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import AuthContext from '../Context/AuthContext'
 
-const NewUser = ({handleSubmit, email, setEmail, name, setName, password, setPassword, password2, setPassword2}) => {
+const NewUser = () => {
+    let {name} = useContext(AuthContext);
+    let {email} = useContext(AuthContext);
+    let {password} = useContext(AuthContext);
+    let {password2}  = useContext(AuthContext);
+    let {handleSubmit} = useContext(AuthContext);
+    let {setName} = useContext(AuthContext);
+    let {setEmail}= useContext(AuthContext);
+    let {setPassword } = useContext(AuthContext);
+    let {setPassword2} = useContext(AuthContext)
 
     return (
         <div>

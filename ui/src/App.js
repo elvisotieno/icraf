@@ -5,7 +5,7 @@ import EditUser from './components/edituser';
 import Home from './components/home';
 import NewUser from './components/newuser';
 import UserPage from './components/userpage';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { BrowserRouter as Router, useHistory, Switch, Route} from 'react-router-dom';
 import axios from 'axios';
 import Login from './components/login';
@@ -13,60 +13,15 @@ import Landingpage from './components/Landingpage';
 import Header from './components/Header';
 
 function App() {
-  const [users, setUsers] = useState([])    
-  const [email, setEmail] = useState('');  
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
+      
+  const [users, setUsers] = useState([])
   const [editEmail, setEditEmail] = useState('');
   const [editName, setEditName] = useState('');
   const history = useHistory();
 
   
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/api/register/');
-        setUsers(response.data);
-      } catch (err) {
-        if (err.response) {
-          // Not in the 200 response range 
-          console.log(err.response.data);
-          console.log(err.response.status);
-          console.log(err.response.headers);
-        } else {
-          console.log(`Error: ${err.message}`);
-        }
-      }
-    }
-
-    fetchUsers();
-  }, [])
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();    
-    const newUser = { username: name, email: email, password, password2 };
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/api/register/', newUser);
-      console.log(response)      
-      setEmail('');
-      setName(''); 
-      setPassword('');
-      setPassword2('');
-      history.push('/');
-           
-    } catch (err) {
-      if (err.response) {
-        // Not in the 200 response range 
-        console.log(err.response.data);
-        console.log(err.response.status);
-        console.log(err.response.headers);
-      } else {
-        console.log(`Error: ${err.message}`);
-      }
-    }
-  }
-
+  
+  
   const handleEdit = async (id) => {    
     const updatedUser ={ username: editName, email: editEmail};
     try {
@@ -104,16 +59,11 @@ function App() {
           <Home  users={users} handleDelete={handleDelete}/>
         </Route>
         <Route path="/user">
-          <UserPage users={users} />
+          <UserPage />
         </Route>
 
         <Route exact path="/register">        
-        <NewUser handleSubmit={handleSubmit}
-            email={email} setEmail={setEmail}
-            name={name} setName={setName}
-            password={password} setPassword={setPassword} 
-            password2={password2} setPassword2={setPassword2}
-            />
+            <NewUser />
          </Route>   
 
         <Route path="/edit/:id">

@@ -1,8 +1,10 @@
-import React, { useMemo} from 'react'
+import React, { useContext, useMemo} from 'react'
 import { useTable, usePagination } from 'react-table'
+import AuthContext from '../Context/AuthContext'
 import { COLUMNS } from './Columns'
 import './table.css'
-const UserPage = ({users}) => {
+const UserPage = () => {
+    let {users} = useContext(AuthContext)
 
          //ensure data is not recreated on every rerender
          const columns = useMemo(() => COLUMNS, [])

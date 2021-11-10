@@ -22,7 +22,7 @@ export const AuthProvider = ({children}) => {
 
     const headers = {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${authTokens.access}`
+        'Authorization': authTokens?`Bearer ${authTokens.access}`: null
       }
 
     let loginUser = async(e) => {

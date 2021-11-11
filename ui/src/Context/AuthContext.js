@@ -16,6 +16,7 @@ export const AuthProvider = ({children}) => {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
+    const [role, setRole] = useState(false);    
     
     const [users, setUsers] = useState([])
     const history = useHistory()
@@ -32,7 +33,7 @@ export const AuthProvider = ({children}) => {
             headers:{
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify({'email':e.target.username.value, 'password':e.target.password.value})
+            body:JSON.stringify({'email':e.target.email.value, 'password':e.target.password.value})
         })
         let data = await response.json()
 
@@ -81,7 +82,8 @@ export const AuthProvider = ({children}) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();    
-        const newUser = { username: name, email: email, password, password2 };
+        const newUser = { username: name, email: email, password, password2, role, 
+          permissions: e.target.permissions.value};
         
         try {
           const response = await axios.post('http://127.0.0.1:8000/api/register/',newUser,{ headers: headers });
@@ -132,8 +134,12 @@ export const AuthProvider = ({children}) => {
         users:users,
         name: name,
         email: email,
+        role : role,
+        
         password: password,
         password2: password2,
+        setRole : setRole,
+        
         setName: setName,
         setEmail:setEmail,
         setPassword:setPassword,

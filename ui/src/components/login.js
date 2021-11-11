@@ -28,7 +28,7 @@ const Login = () => {
                             control ='input'
                             type = 'email'
                             label = 'Email'
-                            name = 'username'
+                            name = 'email'
                             />
                              <FormikControl
                             control ='input'

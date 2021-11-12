@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f199f368-a00f-463a-9d7a-384d1efae9f3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/adminsystem/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/adminsystem/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/backend/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/src/Context/AuthContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/Context/AuthContext.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/src/components/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/components/login.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/src/components/newuser.js" beforeDir="false" afterPath="$PROJECT_DIR$/ui/src/components/newuser.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

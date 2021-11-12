@@ -1,7 +1,10 @@
 import React from 'react'
 import { useParams, Link } from "react-router-dom";
+import { useContext } from 'react/cjs/react.development';
+import AuthContext from '../Context/AuthContext';
 
-const Home = ({ users, handleDelete }) => {
+const Home = () => {
+    let { users, handleDelete } = useContext(AuthContext)
     const { id } = useParams();
     const user = users.find(post => (post.id).toString() === id);
     return (

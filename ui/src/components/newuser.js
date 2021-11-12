@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import AuthContext from '../Context/AuthContext'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
@@ -7,11 +7,11 @@ import FormikControl from '../Formcontrols/Fcontrol'
 const NewUser = () => {
     const dropdownOptions = [
         { key: 'Select Role', value: '' },
-        { key: 'FINANCE', value: 'Handle organization finance' },
-        { key: 'HR', value: 'Manages Human Resources' },
-        { key: 'Marketing', value: 'Market our products' },
-        { key: 'Research', value: 'Conducts operations research' },
-        { key: 'Engineer', value: 'Develop both software/hardware products'}
+        { key: 'FINANCE', value: 'FINANCE' },
+        { key: 'HR', value: 'HR' },
+        { key: 'Marketing', value: 'Marketing' },
+        { key: 'Research', value: 'Research' },
+        { key: 'Engineer', value: 'Engineer'}
       ]
     
       const checkboxOptions = [
@@ -27,7 +27,7 @@ const NewUser = () => {
         name:  '',
         password: '',
         password2: '',
-        role: '',
+        roles: '',
         permissions: [],
     }
    const validationSchema = Yup.object({
@@ -39,10 +39,32 @@ const NewUser = () => {
         Password2: Yup.string()
           .oneOf([Yup.ref('password'), ''], 'Passwords must match')
           .required('Required'),
-        role: Yup.string().required('Required'),
+        roles: Yup.string().required('Required'),
         
     })
-    let {name,email,password,password2,handleSubmit,setEmail,setName,setPassword,setPassword2, role, setRole} = useContext(AuthContext);
+    let {name,email,password,password2,handleSubmit, setEmail,setName,setPassword,setPassword2,
+        roles, setRoles, is_admin, setIsAdmin, is_manager, setIsManager, is_superuser, 
+        setIsSuperuser, is_supervisor, setIsSupervisor} = useContext(AuthContext);
+    const permission = (permissions)=> permissions? permissions.map(
+        role =>{
+          switch (role) {
+            case is_superuser:
+              return setIsSuperuser(true)
+            case is_supervisor:
+              return setIsSupervisor(true)    
+            case is_manager:
+              return setIsManager(true)  
+            case is_admin:
+              return setIsAdmin(true)   
+            default:
+              return false
+          }
+        }
+      ):[]
+
+      useEffect(()=> {
+        permission()
+    }, [])
 
     return (
         <Formik initialValues={initialValues} validationSchema={validationSchema} handleSubmit={handleSubmit}>
@@ -82,17 +104,18 @@ const NewUser = () => {
                             /> 
                             <FormikControl
                             control='select'
-                            label='Role'
-                            name='role'
+                            label='Roles'
+                            name='roles'
                             options={dropdownOptions}
-                            value={role} onChange={(e) => setRole(e.target.value)}
+                            value={roles} onChange={(e) => setRoles(e.target.value)}
                             />
 
                             <FormikControl
                             control='checkbox'
                             label='User Permission'
                             name='permissions'
-                            options={checkboxOptions}                            
+                            options={checkboxOptions}      
+                                                                      
                             />
                         <button
                         type='submit'              

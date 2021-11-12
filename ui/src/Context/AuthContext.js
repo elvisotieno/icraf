@@ -12,11 +12,19 @@ export const AuthProvider = ({children}) => {
     let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null)
     let [loading, setLoading] = useState(true)
 
+    const [editEmail, setEditEmail] = useState('');
+    const [editName, setEditName] = useState('');  
+
+
     const [email, setEmail] = useState('');  
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
-    const [role, setRole] = useState(false);    
+    const [roles, setRoles] = useState('');   
+    const [is_admin, setIsAdmin] = useState(true);
+    const [is_manager, setIsManager] = useState(true);
+    const [is_supervisor, setIsSupervisor] = useState(true);
+    const [is_superuser, setIsSuperuser] = useState(false); 
     
     const [users, setUsers] = useState([])
     const history = useHistory()
@@ -81,9 +89,9 @@ export const AuthProvider = ({children}) => {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();    
-        const newUser = { username: name, email: email, password, password2, role, 
-          permissions: e.target.permissions.value};
+        e.preventDefault();        
+         
+        const newUser = { username: name, email: email, password, password2, roles, is_admin,is_manager,is_superuser,is_supervisor };
         
         try {
           const response = await axios.post('http://127.0.0.1:8000/api/register/',newUser,{ headers: headers });
@@ -126,6 +134,30 @@ export const AuthProvider = ({children}) => {
         fetchUsers();
       }, [])
 
+      const handleEdit = async (id) => {    
+        const updatedUser ={ username: editName, email: editEmail};
+        try {
+          const response = await axios.put(`http://127.0.0.1:8000/api/user-detail/${id}/`, updatedUser,{ headers: headers });
+          setUsers(users.map(user => user.id === id ? { ...response.data } : user));
+          setEditEmail('');
+          setEditName('');
+          history.push('/');      
+        } catch (err) {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+
+      const handleDelete = async (id) => {
+        try {
+          await axios.delete(`http://127.0.0.1:8000/api/user-detail/${id}/`,{ headers: headers });
+          const userList = users.filter(user => user.id !== id);
+          setUsers(userList);
+          history.push('/');
+        } catch (err) {
+          console.log(`Error: ${err.message}`);
+        }
+      }
+
 
     let contextData ={
         user:user,
@@ -134,17 +166,36 @@ export const AuthProvider = ({children}) => {
         users:users,
         name: name,
         email: email,
-        role : role,
+        roles : roles,
+
+        editEmail:editEmail,        
+        editName:editName,
+        
         
         password: password,
         password2: password2,
-        setRole : setRole,
+        setRoles : setRoles,
+        is_admin : is_admin,
+        is_manager: is_manager,
+        is_supervisor: is_supervisor,
+        is_superuser: is_superuser,
+
+        setIsAdmin: setIsAdmin,
+        setIsManager: setIsManager,
+        setIsSuperuser:setIsSuperuser,
+        setIsSupervisor: setIsSupervisor,
+        handleEdit: handleEdit,
         
+        setIsAdmin:setIsAdmin,
+        setEditName:setEditName,
+        setEditEmail: setEditEmail,
         setName: setName,
         setEmail:setEmail,
         setPassword:setPassword,
         setPassword2:setPassword2,
         handleSubmit:handleSubmit,
+        handleDelete: handleDelete,
+       
 
         loginUser:loginUser,
         logoutUser:logoutUser,

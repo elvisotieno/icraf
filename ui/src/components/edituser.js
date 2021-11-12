@@ -1,8 +1,11 @@
 import React from 'react'
 import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
+import { useContext } from 'react/cjs/react.development';
+import AuthContext from '../Context/AuthContext';
 
-const EditUser = ({handleEdit, editName, setEditName, editEmail, setEditEmail, users}) => {  
+const EditUser = () => { 
+    let {handleEdit, editName, setEditName, editEmail, setEditEmail, users} = useContext(AuthContext);
     const { id } = useParams();  
     const user = users.find(user => (user.id).toString() === id);
     useEffect(() => {

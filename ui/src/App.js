@@ -5,49 +5,13 @@ import EditUser from './components/edituser';
 import Home from './components/home';
 import NewUser from './components/newuser';
 import UserPage from './components/userpage';
-import { useState} from 'react';
-import { BrowserRouter as Router, useHistory, Switch, Route} from 'react-router-dom';
-import axios from 'axios';
+import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Login from './components/login';
 import Landingpage from './components/Landingpage';
 import Header from './components/Header';
 
-function App() {
-      
-  const [users, setUsers] = useState([])
-  const [editEmail, setEditEmail] = useState('');
-  const [editName, setEditName] = useState('');
-  const history = useHistory();
-
-  
-  
-  
-  const handleEdit = async (id) => {    
-    const updatedUser ={ username: editName, email: editEmail};
-    try {
-      const response = await axios.put(`http://127.0.0.1:8000/api/user-detail/${id}/`, updatedUser);
-      setUsers(users.map(user => user.id === id ? { ...response.data } : user));
-      setEditEmail('');
-      setEditName('');
-      history.push('/');      
-    } catch (err) {
-      console.log(`Error: ${err.message}`);
-    }
-  }
-
-
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`http://127.0.0.1:8000/api/user-detail/${id}/`);
-      const userList = users.filter(user => user.id !== id);
-      setUsers(userList);
-      history.push('/');
-    } catch (err) {
-      console.log(`Error: ${err.message}`);
-    }
-  }
-
- 
+function App() {      
+   
   return (
     <Router>
     <div className="App">  
@@ -56,7 +20,7 @@ function App() {
       
        <Switch>  
        <Route path="/user/:id">     
-          <Home  users={users} handleDelete={handleDelete}/>
+          <Home />
         </Route>
         <Route path="/user">
           <UserPage />
@@ -67,9 +31,7 @@ function App() {
          </Route>   
 
         <Route path="/edit/:id">
-        <EditUser editEmail={editEmail} setEditEmail={setEditEmail}
-        editName={editName} setEditName={setEditName} 
-        handleEdit={handleEdit} users={users}/>
+        <EditUser />
         </Route>       
 
         <PriateRoute component={Landingpage} path="/" exact/>
